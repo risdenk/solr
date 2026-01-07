@@ -75,14 +75,16 @@ public class SolrHttpDefaultsHelper {
    * Calculate the default maximum pool size for thread pools based on CPU count. This is suitable
    * for I/O-bound operations like HTTP requests.
    *
-   * <p>Formula: NUM_CPUS * 32, with a minimum of 32 and no upper limit. This allows for many
-   * concurrent HTTP requests while still scaling with available processors.
+   * <p>Formula: NUM_CPUS * 4, with a minimum of 32. This allows for good concurrency for HTTP
+   * requests while being more conservative than the previous unlimited (Integer.MAX_VALUE) default.
+   * The multiplier of 4 is appropriate for I/O-bound operations where threads spend significant
+   * time waiting on network operations.
    *
    * @return the recommended maximum thread pool size
    */
   public static int getDefaultMaxThreadPoolSize() {
     int cpus = getNumCPUs();
-    return Math.max(32, cpus * 32);
+    return Math.max(32, cpus * 4);
   }
 
   /**

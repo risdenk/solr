@@ -23,12 +23,13 @@ The following constants in `SolrHttpConstants` now use CPU-based calculations:
 
 The `HttpShardHandlerFactory` now uses CPU-based defaults for thread pool configuration:
 
-- **maximumPoolSize**: `Number of CPUs × 32` (min: 32)
+- **maximumPoolSize**: `Number of CPUs × 4` (min: 32)
 
 **Example:**
-- On a 4-CPU machine: 128 threads maximum
-- On an 8-CPU machine: 256 threads maximum
-- On a 16-CPU machine: 512 threads maximum
+- On a 4-CPU machine: 32 threads maximum (minimum)
+- On an 8-CPU machine: 32 threads maximum
+- On a 16-CPU machine: 64 threads maximum
+- On a 32-CPU machine: 128 threads maximum
 
 ### Recovery Thread Pool (Future Enhancement)
 

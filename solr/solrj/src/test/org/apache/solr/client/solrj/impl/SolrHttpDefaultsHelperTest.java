@@ -97,7 +97,7 @@ public class SolrHttpDefaultsHelperTest {
 
     // Should scale with CPUs
     int cpus = SolrHttpDefaultsHelper.getNumCPUs();
-    int expected = Math.max(32, cpus * 32);
+    int expected = Math.max(32, cpus * 4);
     assertEquals("Should match expected calculation", expected, maxThreadPoolSize);
   }
 

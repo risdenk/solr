@@ -98,10 +98,10 @@ public class CpuBasedDefaultsIntegrationTest {
         maxThreadPoolSize >= cpus);
 
     // For a typical server (e.g., 8 CPUs), we should get reasonable values
-    // 8 CPUs -> 8000 connections, 256 threads
+    // 8 CPUs -> 8000 connections, 32 threads
     if (cpus == 8) {
       assertEquals("8 CPUs should give 8000 connections", 8000, maxConnections);
-      assertEquals("8 CPUs should give 256 thread pool max", 256, maxThreadPoolSize);
+      assertEquals("8 CPUs should give 32 thread pool max", 32, maxThreadPoolSize);
     }
   }
 }
