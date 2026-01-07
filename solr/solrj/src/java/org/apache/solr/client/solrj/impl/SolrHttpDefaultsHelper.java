@@ -61,4 +61,29 @@ public class SolrHttpDefaultsHelper {
   public static int getNumCPUs() {
     return NUM_CPUS;
   }
+
+  /**
+   * Calculate the default maximum pool size for thread pools based on CPU count. This is suitable
+   * for I/O-bound operations like HTTP requests.
+   *
+   * <p>Formula: NUM_CPUS * 32, with a minimum of 32 and no upper limit. This allows for many
+   * concurrent HTTP requests while still scaling with available processors.
+   *
+   * @return the recommended maximum thread pool size
+   */
+  public static int getDefaultMaxThreadPoolSize() {
+    return Math.max(32, NUM_CPUS * 32);
+  }
+
+  /**
+   * Calculate the default number of recovery threads based on CPU count. Recovery operations are
+   * I/O intensive so we allow more threads than CPUs.
+   *
+   * <p>Formula: NUM_CPUS * 4, with a minimum of 4
+   *
+   * @return the recommended number of recovery threads
+   */
+  public static int getDefaultRecoveryThreads() {
+    return Math.max(4, NUM_CPUS * 4);
+  }
 }

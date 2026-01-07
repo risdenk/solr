@@ -87,4 +87,30 @@ public class SolrHttpDefaultsHelperTest {
       assertEquals("Should cap at 100000", 100000, maxConnections);
     }
   }
+
+  @Test
+  public void testDefaultMaxThreadPoolSize() {
+    int maxThreadPoolSize = SolrHttpDefaultsHelper.getDefaultMaxThreadPoolSize();
+
+    // Should be at least 32
+    assertTrue("Max thread pool size should be at least 32", maxThreadPoolSize >= 32);
+
+    // Should scale with CPUs
+    int cpus = SolrHttpDefaultsHelper.getNumCPUs();
+    int expected = Math.max(32, cpus * 32);
+    assertEquals("Should match expected calculation", expected, maxThreadPoolSize);
+  }
+
+  @Test
+  public void testDefaultRecoveryThreads() {
+    int recoveryThreads = SolrHttpDefaultsHelper.getDefaultRecoveryThreads();
+
+    // Should be at least 4
+    assertTrue("Recovery threads should be at least 4", recoveryThreads >= 4);
+
+    // Should scale with CPUs
+    int cpus = SolrHttpDefaultsHelper.getNumCPUs();
+    int expected = Math.max(4, cpus * 4);
+    assertEquals("Should match expected calculation", expected, recoveryThreads);
+  }
 }

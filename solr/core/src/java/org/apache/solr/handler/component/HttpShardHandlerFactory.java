@@ -34,6 +34,7 @@ import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.LBAsyncSolrClient;
 import org.apache.solr.client.solrj.impl.LBSolrClient;
 import org.apache.solr.client.solrj.impl.SolrHttpConstants;
+import org.apache.solr.client.solrj.impl.SolrHttpDefaultsHelper;
 import org.apache.solr.client.solrj.jetty.HttpJettySolrClient;
 import org.apache.solr.client.solrj.jetty.LBJettySolrClient;
 import org.apache.solr.client.solrj.request.QueryRequest;
@@ -86,7 +87,7 @@ public class HttpShardHandlerFactory extends ShardHandlerFactory
   protected LBAsyncSolrClient loadbalancer;
 
   int corePoolSize = 0;
-  int maximumPoolSize = Integer.MAX_VALUE;
+  int maximumPoolSize = SolrHttpDefaultsHelper.getDefaultMaxThreadPoolSize();
   int keepAliveTime = 5;
   int queueSize = -1;
   int permittedLoadBalancerRequestsMinimumAbsolute = 0;
