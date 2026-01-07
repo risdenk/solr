@@ -26,7 +26,27 @@ package org.apache.solr.client.solrj.impl;
  */
 public class SolrHttpDefaultsHelper {
 
-  private static final int NUM_CPUS = Runtime.getRuntime().availableProcessors();
+  /**
+   * Get the number of CPUs available to the JVM.
+   *
+   * @return the number of available processors
+   */
+  public static int getNumCPUs() {
+    return Runtime.getRuntime().availableProcessors();
+  }
+
+  /**
+   * Calculate the default maximum number of connections based on CPU count.
+   *
+   * <p>Formula: NUM_CPUS * 1000, with a minimum of 1000 and maximum of 100000
+   *
+   * @return the recommended maximum connections
+   */
+  private static int calculateDefaultConnections() {
+    int cpus = getNumCPUs();
+    int calculated = cpus * 1000;
+    return Math.max(1000, Math.min(100000, calculated));
+  }
 
   /**
    * Calculate the default maximum number of connections per host based on CPU count. Uses a
@@ -37,8 +57,7 @@ public class SolrHttpDefaultsHelper {
    * @return the recommended maximum connections per host
    */
   public static int getDefaultMaxConnectionsPerHost() {
-    int calculated = NUM_CPUS * 1000;
-    return Math.max(1000, Math.min(100000, calculated));
+    return calculateDefaultConnections();
   }
 
   /**
@@ -49,17 +68,7 @@ public class SolrHttpDefaultsHelper {
    * @return the recommended maximum total connections
    */
   public static int getDefaultMaxConnections() {
-    int calculated = NUM_CPUS * 1000;
-    return Math.max(1000, Math.min(100000, calculated));
-  }
-
-  /**
-   * Get the number of CPUs available to the JVM.
-   *
-   * @return the number of available processors
-   */
-  public static int getNumCPUs() {
-    return NUM_CPUS;
+    return calculateDefaultConnections();
   }
 
   /**
@@ -72,7 +81,8 @@ public class SolrHttpDefaultsHelper {
    * @return the recommended maximum thread pool size
    */
   public static int getDefaultMaxThreadPoolSize() {
-    return Math.max(32, NUM_CPUS * 32);
+    int cpus = getNumCPUs();
+    return Math.max(32, cpus * 32);
   }
 
   /**
@@ -84,6 +94,7 @@ public class SolrHttpDefaultsHelper {
    * @return the recommended number of recovery threads
    */
   public static int getDefaultRecoveryThreads() {
-    return Math.max(4, NUM_CPUS * 4);
+    int cpus = getNumCPUs();
+    return Math.max(4, cpus * 4);
   }
 }
